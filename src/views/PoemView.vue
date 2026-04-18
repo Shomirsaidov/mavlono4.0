@@ -18,7 +18,7 @@
     </div>
 
     <!-- Poem body -->
-    <p class="font-serif text-2xl md:text-3xl leading-[2.2] text-gray-800 mb-12 whitespace-pre-line selection:bg-gold/10 italic">
+    <p class="font-serif text-2xl md:text-3xl leading-[1.7] text-gray-800 mb-12 whitespace-pre-line selection:bg-gold/10 italic">
       {{ poem.content }}
     </p>
 
