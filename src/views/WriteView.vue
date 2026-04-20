@@ -8,23 +8,23 @@
     <div class="space-y-6">
       <div>
         <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Шоир</label>
-        <select v-model="form.poet_id" class="input-base cursor-pointer">
+        <select v-model="form.poet_id" class="input-base cursor-pointer text-lg">
           <option value="" disabled>Шоирро интихоб кунед</option>
           <option v-for="p in poets" :key="p.id" :value="p.id">{{ p.name }}</option>
         </select>
       </div>
       <div>
         <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Матни шеър</label>
-        <textarea v-model="form.content" class="input-base min-h-[300px] font-serif italic text-lg md:text-xl leading-relaxed p-6" placeholder="Матни шеърро ин ҷо нависед..."></textarea>
+        <textarea v-model="form.content" class="input-base min-h-[400px] font-serif italic text-xl md:text-3xl leading-relaxed p-8" placeholder="Матни шеърро ин ҷо нависед..."></textarea>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Жанр</label>
-          <input v-model="form.genre" class="input-base" placeholder="Ғазал, Рубоӣ, Дубайтӣ...">
+          <input v-model="form.genre" class="input-base text-lg" placeholder="Ғазал, Рубоӣ, Дубайтӣ...">
         </div>
         <div>
           <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Тегҳо (бо вергул ҷудо кунед)</label>
-          <input v-model="form.tags" class="input-base" placeholder="ишқ, ватан, табиат">
+          <input v-model="form.tags" class="input-base text-lg" placeholder="ишқ, ватан, табиат">
         </div>
       </div>
 
