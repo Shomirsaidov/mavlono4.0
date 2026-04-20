@@ -15,7 +15,7 @@
       </div>
       <div>
         <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Матни шеър</label>
-        <textarea v-model="form.content" class="input-base min-h-[400px] font-serif italic text-xl md:text-3xl leading-relaxed p-8" placeholder="Матни шеърро ин ҷо нависед..."></textarea>
+        <textarea v-model="form.content" class="input-base min-h-[500px] font-serif italic text-3xl md:text-[2.5rem] leading-[2] p-8" placeholder="Матни шеърро ин ҷо нависед..."></textarea>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
