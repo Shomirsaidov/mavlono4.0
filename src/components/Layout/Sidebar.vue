@@ -94,6 +94,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import PoetAvatar from '../PoetAvatar.vue'
+import { API_URL } from '../../config'
 
 
 const poets = ref([])
