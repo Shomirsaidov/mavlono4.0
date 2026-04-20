@@ -42,54 +42,33 @@
     <div
       v-for="poem in results"
       :key="poem.id"
-      class="bg-surface p-8 md:p-10 rounded-[2.5rem] border border-border relative overflow-hidden group hover:border-gold/20 hover:shadow-lg transition-all duration-300"
+      class="bg-surface p-6 rounded-2xl border border-border mb-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-gold/30 group"
     >
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <router-link :to="'/poets/' + poem.poet?.id" class="flex items-center gap-4 decoration-transparent">
-          <PoetAvatar :src="poem.poet?.avatar" :alt="poem.poet?.name" size="48" class="ring-4 ring-indigo-light/30 shadow-lg group-hover:scale-105 transition-transform duration-300" />
-          <div class="flex flex-col">
-            <span class="text-lg font-bold text-text-main group-hover:text-gold transition-colors">{{ poem.poet?.name }}</span>
-            <span class="text-[0.7rem] font-black text-gold uppercase tracking-[0.2em] mt-0.5">{{ poem.poet?.category || 'Адиб' }}</span>
-          </div>
-        </router-link>
-        
-        <div v-if="poem.tags" class="flex flex-wrap gap-2">
-          <span v-for="tag in poem.tags.split(',').slice(0, 3)" :key="tag" class="px-4 py-1.5 bg-indigo-light text-indigo text-[0.65rem] font-black uppercase tracking-[0.15em] rounded-full border border-indigo/10">
-            #{{ tag.trim() }}
-          </span>
-        </div>
-      </div>
-
-      <router-link :to="'/poems/' + poem.id" class="block decoration-transparent mb-10">
-        <p class="font-serif text-2xl md:text-3xl leading-[2] text-gray-800 italic whitespace-pre-line group-hover:translate-x-1 transition-transform duration-300">
-          {{ formatContent(poem.content) }}
-        </p>
-        <div class="mt-8 flex items-center gap-4">
-          <span class="w-10 h-[2px] bg-gold rounded-full group-hover:w-16 transition-all duration-500"></span>
-          <span class="text-[0.75rem] font-black text-indigo uppercase tracking-[0.25em]">Муфассал хонед</span>
-        </div>
+      <router-link :to="'/poets/' + poem.poet?.id" class="flex items-center gap-3 mb-4 decoration-transparent">
+        <PoetAvatar :src="poem.poet?.avatar" :alt="poem.poet?.name" size="36" />
+        <span class="text-sm font-bold text-text-main group-hover:text-indigo transition-colors">{{ poem.poet?.name }}</span>
       </router-link>
 
-      <div class="pt-8 border-t border-border flex items-center justify-between">
-        <div class="flex items-center gap-8">
-          <button 
-            @click.prevent="toggleLike(poem)"
-            class="flex items-center gap-3 transition-all active:scale-90"
-            :class="poem._liked ? 'text-heart' : 'text-text-faint hover:text-heart'"
-          >
-            <div class="p-3 rounded-2xl transition-all" :class="poem._liked ? 'bg-heart/10 shadow-inner' : 'bg-surface-2 group-hover:bg-heart/5'">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" :fill="poem._liked ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2.1C10.5 3.5 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-            </div>
-            <span class="text-[0.95rem] font-black">{{ poem._likeCount }}</span>
-          </button>
-
-          <div class="flex items-center gap-3 text-text-faint">
-            <div class="p-3 rounded-2xl bg-surface-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0z"/><circle cx="12" cy="12" r="3"/></svg>
-            </div>
-            <span class="text-sm font-black">{{ poem.views?.length || 0 }}</span>
-          </div>
+      <router-link :to="'/poems/' + poem.id" class="block decoration-transparent">
+        <p class="font-serif text-xl leading-relaxed text-gray-700 whitespace-pre-line">{{ formatContent(poem.content) }}</p>
+        
+        <div v-if="poem.tags" class="flex flex-wrap gap-2 mt-4">
+          <span v-for="tag in poem.tags.split(',').filter(t => t.trim())" :key="tag" class="text-[0.65rem] font-bold uppercase tracking-widest px-2.5 py-1 bg-surface-2 text-text-muted rounded-md border border-border/50">#{{ tag.trim() }}</span>
         </div>
+
+        <span class="inline-block mt-4 text-[0.8rem] font-bold text-indigo group-hover:underline uppercase tracking-wider">Муфассал хонед →</span>
+      </router-link>
+
+      <div class="mt-6 pt-5 border-t border-border flex items-center justify-between">
+        <button 
+          class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all"
+          :class="poem._liked ? 'bg-heart text-white shadow-lg shadow-heart/20' : 'bg-surface-2 text-text-faint hover:text-heart hover:bg-heart/5'"
+          @click.prevent="toggleLike(poem)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2.1C10.5 3.5 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          {{ poem._likeCount }}
+        </button>
+        <span class="text-[0.6rem] font-black uppercase tracking-widest text-text-faint italic" v-if="poem.genre">{{ poem.genre }}</span>
       </div>
     </div>
   </div>
