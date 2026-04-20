@@ -15,12 +15,32 @@
       </div>
       <div>
         <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Матни шеър</label>
-        <textarea v-model="form.content" class="input-base min-h-[500px] font-serif italic text-3xl md:text-[2.5rem] leading-[2] p-8" placeholder="Матни шеърро ин ҷо нависед..."></textarea>
+        <textarea v-model="form.content" class="input-base min-h-[500px] font-serif italic text-3xl md:text-[2.5rem] leading-[2] p-8 font-bold" placeholder="Матни шеърро ин ҷо нависед..."></textarea>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Жанр</label>
-          <input v-model="form.genre" class="input-base text-lg" placeholder="Ғазал, Рубоӣ, Дубайтӣ...">
+          <select v-model="form.genre" class="input-base cursor-pointer text-lg">
+            <option value="" disabled>Жанрро интихоб кунед</option>
+            <option value="ғазал">ғазал</option>
+            <option value="рубоӣ">рубоӣ</option>
+            <option value="маснавӣ">маснавӣ</option>
+            <option value="қасида">қасида</option>
+            <option value="дубайтӣ">дубайтӣ</option>
+            <option value="қитъа">қитъа</option>
+            <option value="шеъри нав">шеъри нав</option>
+            <option value="шеъри сафед">шеъри сафед</option>
+            <option value="байт">байт</option>
+            <option value="марсия">марсия</option>
+            <option value="тарҷеъбанд">тарҷеъбанд</option>
+            <option value="таркиббанд">таркиббанд</option>
+            <option value="мусаммат">мусаммат</option>
+            <option value="достон">достон</option>
+            <option value="ҳамосӣ">ҳамосӣ</option>
+            <option value="мадҳ">мадҳ</option>
+            <option value="ҳиҷо">ҳиҷо</option>
+            <option value="васф">васф</option>
+          </select>
         </div>
         <div>
           <label class="text-[0.7rem] font-bold text-text-faint uppercase tracking-widest block mb-2">Тегҳо (бо вергул ҷудо кунед)</label>
