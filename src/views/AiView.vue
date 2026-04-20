@@ -9,7 +9,7 @@
       <textarea v-model="query" class="input-base min-h-[160px] font-serif italic text-lg leading-relaxed p-6" placeholder="Шеъри худро ба ин ҷо нависед ё ворид кунед..."></textarea>
       
       <div class="flex justify-end">
-        <button @click="send" :disabled="loading" class="btn btn-gold px-10 py-3 shadow-gold/30">
+        <button @click="send" :disabled="loading" class="btn btn-gold px-10 py-3">
           <svg v-if="!loading" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
           <div v-else class="mr-3 h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
           {{ loading ? 'Шарҳ дода мешавад...' : 'Шарҳ гиред' }}

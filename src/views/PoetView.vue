@@ -26,7 +26,7 @@
         </div>
         
         <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-4">
-          <button class="btn btn-gold px-8 py-3 text-sm shadow-lg shadow-gold/20 hover:scale-105 active:scale-95 transition-all" @click="subscribe">
+          <button class="btn btn-gold px-8 py-3 text-sm transition-all" @click="subscribe">
             Обуна шудан +
           </button>
         </div>

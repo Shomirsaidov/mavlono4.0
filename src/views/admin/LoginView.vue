@@ -27,7 +27,7 @@
           <button 
             type="submit" 
             :disabled="loading"
-            class="btn btn-indigo w-full py-4 rounded-2xl shadow-xl shadow-indigo/20 disabled:opacity-50"
+            class="btn btn-indigo w-full py-4 rounded-2xl disabled:opacity-50"
           >
             <span v-if="loading" class="animate-spin h-5 w-5 border-2 border-white/30 border-t-white rounded-full"></span>
             <span v-else>Ворид шудан</span>

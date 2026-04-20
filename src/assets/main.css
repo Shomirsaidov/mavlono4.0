@@ -69,13 +69,13 @@ body {
   @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all active:scale-95 whitespace-nowrap;
 }
 .btn-gold {
-  @apply bg-gold text-white shadow-lg shadow-gold/20 hover:bg-gold-dark hover:-translate-y-0.5;
+  @apply bg-gold text-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:bg-gold-dark transition-colors;
 }
 .btn-indigo {
-  @apply bg-indigo text-white shadow-lg shadow-indigo/20 hover:bg-indigo-mid hover:-translate-y-0.5;
+  @apply bg-indigo text-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:bg-indigo-mid transition-colors;
 }
 .btn-outline {
-  @apply border-2 border-border text-text-muted hover:border-gold hover:text-gold hover:bg-gold-light;
+  @apply border border-border text-text-muted hover:border-text-faint hover:text-text-main transition-colors shadow-sm bg-white;
 }
 
 .input-base {

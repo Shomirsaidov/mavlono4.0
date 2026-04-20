@@ -56,7 +56,7 @@
           {{ errorMsg }}
         </div>
 
-        <button type="submit" :disabled="loading" class="btn btn-indigo w-full py-4 text-base shadow-indigo/30 rounded-2xl">
+        <button type="submit" :disabled="loading" class="btn btn-indigo w-full py-4 text-base rounded-2xl">
           <span v-if="loading" class="animate-spin h-5 w-5 border-2 border-white/30 border-t-white rounded-full mr-2"></span>
           {{ loading ? 'Лутфан интизор шавед...' : (isLogin ? 'Вуруд ба система' : 'Бақайдгирӣ') }}
         </button>
