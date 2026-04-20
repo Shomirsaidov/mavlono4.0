@@ -82,6 +82,9 @@
             <div class="flex justify-between items-center gap-4">
               <div class="flex-1 min-w-0">
                  <p class="font-serif text-lg text-gray-800 truncate group-hover:text-heart transition-colors italic mb-1">{{ formatSnippet(poem.content) }}</p>
+                 <div v-if="poem.tags" class="flex flex-wrap gap-1.5 mb-1.5">
+                   <span v-for="tag in poem.tags.split(',').slice(0, 2)" :key="tag" class="text-[0.55rem] font-bold uppercase px-1.5 py-0.5 bg-surface-2 text-text-muted rounded border border-border/50">#{{ tag.trim() }}</span>
+                 </div>
                  <p class="text-[0.65rem] font-black text-text-faint uppercase tracking-widest">{{ poem.poet?.name || 'Номаълум' }}</p>
               </div>
               <div class="flex items-center gap-2 text-text-faint text-xs font-bold shrink-0">
@@ -107,7 +110,10 @@
             class="block bg-surface p-6 rounded-2xl border border-border hover:border-indigo/30 hover:shadow-lg transition-all group decoration-transparent flex flex-col justify-between min-h-[140px]"
           >
             <div>
-              <p class="font-serif text-[1.05rem] leading-relaxed text-gray-700 italic line-clamp-3 mb-4">{{ formatSnippet(poem.content) }}</p>
+              <p class="font-serif text-[1.05rem] leading-relaxed text-gray-700 italic line-clamp-3 mb-4 whitespace-pre-line">{{ formatSnippet(poem.content) }}</p>
+              <div v-if="poem.tags" class="flex flex-wrap gap-1.5 mb-2">
+                 <span v-for="tag in poem.tags.split(',').slice(0, 3)" :key="tag" class="text-[0.6rem] font-bold uppercase tracking-widest px-2 py-1 bg-surface-2 text-text-muted rounded border border-border/50">#{{ tag.trim() }}</span>
+              </div>
             </div>
             <div class="flex items-center justify-between mt-auto pt-4 border-t border-border/50">
                <span class="text-[0.65rem] font-black text-text-faint uppercase tracking-widest">{{ poem.poet?.name || 'Номаълум' }}</span>

@@ -53,9 +53,12 @@
           class="snap-start shrink-0 w-[300px] md:w-[360px] glass-card p-8 rounded-[2.5rem] border border-border hover:border-gold/40 transition-all group"
         >
           <router-link :to="'/poems/' + poem.id" class="decoration-transparent h-full flex flex-col">
-            <p class="font-serif text-xl leading-relaxed text-gray-700 italic line-clamp-6 mb-8 flex-1">
+            <p class="font-serif text-xl leading-relaxed text-gray-700 italic line-clamp-6 mb-6 flex-1 whitespace-pre-line">
               {{ formatSnippet(poem.content) }}
             </p>
+            <div v-if="poem.tags" class="flex flex-wrap gap-2 mb-6">
+              <span v-for="tag in poem.tags.split(',').slice(0, 2)" :key="tag" class="text-[0.65rem] font-bold uppercase tracking-widest px-2.5 py-1 bg-surface-2 text-text-muted rounded-md border border-border/50">#{{ tag.trim() }}</span>
+            </div>
             <div class="flex items-center justify-between mt-auto pt-6 border-t border-border/50">
               <div class="flex items-center gap-2.5 text-text-faint text-sm font-bold">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2.1C10.5 3.5 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>

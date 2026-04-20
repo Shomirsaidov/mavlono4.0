@@ -64,7 +64,7 @@
     </div>
 
     <!-- Filter tabs -->
-    <div class="flex items-center gap-3 mb-8 bg-surface-2 p-1 rounded-2xl w-fit">
+    <div class="flex flex-wrap items-center gap-3 mb-8 bg-surface-2 p-1 rounded-2xl w-fit">
       <button 
         class="px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all"
         :class="filter === 'popular' ? 'bg-white text-indigo shadow-sm' : 'text-text-faint hover:text-text-muted'"
@@ -75,6 +75,12 @@
         :class="filter === 'recent' ? 'bg-white text-indigo shadow-sm' : 'text-text-faint hover:text-text-muted'"
         @click="filter = 'recent'"
       >Навтарин</button>
+      <button 
+        v-for="genre in availableGenres" :key="genre"
+        class="px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all"
+        :class="filter === genre ? 'bg-white text-indigo shadow-sm' : 'text-text-faint hover:text-text-muted'"
+        @click="filter = genre"
+      >{{ genre }}</button>
     </div>
 
     <!-- Poems list -->
@@ -85,8 +91,13 @@
       class="bg-surface p-6 rounded-2xl border border-border mb-4 hover:border-gold/30 hover:shadow-lg transition-all group"
     >
       <router-link :to="'/poems/' + poem.id" class="block decoration-transparent">
-        <p class="font-serif text-lg leading-relaxed text-gray-700 italic group-hover:text-text-main transition-colors mb-4">{{ formatContent(poem.content) }}</p>
+        <p class="font-serif text-lg leading-relaxed text-gray-700 italic group-hover:text-text-main transition-colors mb-4 whitespace-pre-line">{{ formatContent(poem.content) }}</p>
       </router-link>
+      
+      <div v-if="poem.tags" class="flex flex-wrap gap-2 mb-4">
+        <span v-for="tag in poem.tags.split(',').filter(t => t.trim())" :key="tag" class="text-[0.65rem] font-bold uppercase tracking-widest px-2.5 py-1 bg-surface-2 text-text-muted rounded-md border border-border/50">#{{ tag.trim() }}</span>
+      </div>
+
       <div class="flex items-center justify-between pt-4 border-t border-border/50">
         <div class="flex items-center gap-2 text-text-faint text-xs font-bold">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-heart transition-colors"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2.1C10.5 3.5 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
@@ -111,11 +122,17 @@ const poems = ref([])
 const loading = ref(true)
 const filter = ref('popular')
 
+const availableGenres = computed(() => {
+  const genres = poems.value.map(p => p.genre).filter(Boolean)
+  return [...new Set(genres)]
+})
+
 const filteredPoems = computed(() => {
   const list = [...poems.value]
-  return filter.value === 'recent'
-    ? list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    : list.sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0))
+  if (filter.value === 'popular') return list.sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0))
+  if (filter.value === 'recent') return list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+  
+  return list.filter(p => p.genre === filter.value).sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0))
 })
 
 const totalLikes = computed(() => poems.value.reduce((sum, p) => sum + (p.likes?.length || 0), 0))

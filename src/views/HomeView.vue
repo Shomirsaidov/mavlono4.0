@@ -113,6 +113,11 @@
 
       <router-link :to="'/poems/' + poem.id" class="block decoration-transparent">
         <p class="font-serif text-xl leading-relaxed text-gray-700 whitespace-pre-line">{{ formatContent(poem.content) }}</p>
+        
+        <div v-if="poem.tags" class="flex flex-wrap gap-2 mt-4">
+          <span v-for="tag in poem.tags.split(',').filter(t => t.trim())" :key="tag" class="text-[0.65rem] font-bold uppercase tracking-widest px-2.5 py-1 bg-surface-2 text-text-muted rounded-md border border-border/50">#{{ tag.trim() }}</span>
+        </div>
+
         <span class="inline-block mt-4 text-[0.8rem] font-bold text-indigo group-hover:underline uppercase tracking-wider">Муфассал хонед →</span>
       </router-link>
 
