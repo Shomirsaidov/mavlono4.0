@@ -121,6 +121,49 @@
         </div>
       </div>
     </div>
+
+    <!-- Similar Poems -->
+    <div v-if="similarPoems.length > 0" class="mt-20">
+      <div class="section-title mb-8 flex items-center gap-3">
+        <span class="w-1.5 h-6 bg-gold rounded-full"></span>
+        Шеърҳои монанд
+      </div>
+      
+      <div class="space-y-6">
+        <div
+          v-for="p in similarPoems"
+          :key="p.id"
+          class="bg-surface p-6 rounded-2xl border border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:border-gold/30 group"
+        >
+          <router-link :to="'/poets/' + p.poet?.id" class="flex items-center gap-3 mb-4 decoration-transparent">
+            <PoetAvatar :src="p.poet?.avatar" :alt="p.poet?.name" size="36" />
+            <span class="text-sm font-bold text-text-main group-hover:text-indigo transition-colors">{{ p.poet?.name }}</span>
+          </router-link>
+
+          <router-link :to="'/poems/' + p.id" class="block decoration-transparent">
+            <p class="font-serif text-xl leading-relaxed text-gray-700 whitespace-pre-line italic">{{ formatContent(p.content) }}</p>
+            
+            <div v-if="p.tags" class="flex flex-wrap gap-2 mt-4">
+              <span v-for="tag in p.tags.split(',').filter(t => t.trim())" :key="tag" class="text-[0.65rem] font-bold uppercase tracking-widest px-2.5 py-1 bg-surface-2 text-text-muted rounded-md border border-border/50">#{{ tag.trim() }}</span>
+            </div>
+
+            <span class="inline-block mt-4 text-[0.8rem] font-bold text-indigo group-hover:underline uppercase tracking-wider">Муфассал хонед →</span>
+          </router-link>
+
+          <div class="mt-6 pt-5 border-t border-border flex items-center justify-between">
+            <button 
+              class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all"
+              :class="p._liked ? 'bg-heart text-white shadow-lg shadow-heart/20' : 'bg-surface-2 text-text-faint hover:text-heart hover:bg-heart/5'"
+              @click.prevent="toggleLikeSimilar(p)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2.1C10.5 3.5 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              {{ p._likeCount }}
+            </button>
+            <span class="text-[0.6rem] font-black uppercase tracking-widest text-text-faint italic" v-if="p.genre">{{ p.genre }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -144,7 +187,15 @@ const vocabUrl = ref('')
 const showVocab = ref(false)
 const newComment = ref('')
 
+const similarPoems = ref([])
+
 const currentTags = computed(() => poem.value?.tags ? poem.value.tags.split(',').map(t => t.trim()).filter(Boolean) : [])
+
+const formatContent = (c) => {
+  if (!c) return ''
+  const lines = c.split('\n').filter(l => l.trim())
+  return lines.slice(0, 4).join('\n') + (lines.length > 4 ? '\n...' : '')
+}
 
 const fetchPoem = async () => {
   loading.value = true
@@ -153,12 +204,43 @@ const fetchPoem = async () => {
     const data = await res.json()
     if (data.poem) {
       poem.value = data.poem
+      similarPoems.value = (data.similars || []).map(p => ({
+        ...p,
+        _liked: authStore.isAuthenticated && (p.likes || []).some(l => l.user_id === authStore.currentUserId),
+        _likeCount: p.likes?.length || 0
+      }))
       const likes = data.poem.likes || []
       likeCount.value = likes.length
       hasLiked.value = authStore.isAuthenticated && likes.some(l => l.user_id === authStore.currentUserId)
     }
   } catch(e) { console.error(e) }
   finally { loading.value = false }
+}
+
+const toggleLikeSimilar = async (p) => {
+  if (!authStore.isAuthenticated) {
+    alert('Лутфан аввал ба система ворид шавед.')
+    return
+  }
+  
+  const wasLiked = p._liked
+  p._liked = !p._liked
+  p._likeCount += p._liked ? 1 : -1
+  
+  try {
+    const res = await fetch(`${API_URL}/api/poems/${p.id}/like`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: authStore.currentUserId })
+    })
+    const data = await res.json()
+    if (data.action === 'liked') p._liked = true
+    else if (data.action === 'unliked') p._liked = false
+    if (typeof data.newCount === 'number') p._likeCount = data.newCount
+  } catch(e) {
+    p._liked = wasLiked
+    p._likeCount += wasLiked ? 0 : 0
+  }
 }
 
 watch(() => route.params.id, fetchPoem, { immediate: true })
